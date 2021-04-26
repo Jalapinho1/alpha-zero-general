@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import csv
 
 import numpy as np
 from tqdm import tqdm
@@ -9,7 +10,10 @@ sys.path.append('../../')
 from utils import *
 from NeuralNet import NeuralNet
 
-import tensorflow as tf
+# import tensorflow as tf
+import tensorflow.compat.v1 as tf
+
+tf.disable_v2_behavior()
 from .Connect4NNet import Connect4NNet as onnet
 
 args = dotdict({
@@ -62,6 +66,10 @@ class NNetWrapper(NeuralNet):
                 pi_losses.update(pi_loss, len(boards))
                 v_losses.update(v_loss, len(boards))
                 t.set_postfix(Loss_pi=pi_losses, Loss_v=v_losses)
+
+            with open('logs/loss.csv', 'a+', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow([pi_losses.val, v_losses.val])
 
     def predict(self, board):
         """

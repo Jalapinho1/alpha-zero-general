@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import csv
 
 import numpy as np
 from tqdm import tqdm
@@ -74,6 +75,10 @@ class NNetWrapper(NeuralNet):
                 optimizer.zero_grad()
                 total_loss.backward()
                 optimizer.step()
+
+            with open('logs/loss.csv', 'a+', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow([pi_losses.val, v_losses.val])
 
     def predict(self, board):
         """

@@ -2,7 +2,9 @@ import sys
 sys.path.append('..')
 from utils import *
 
-import tensorflow as tf
+#import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 ## Code based on OthelloNNet with minimal changes.
 
